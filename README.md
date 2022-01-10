@@ -1,1 +1,1 @@
-# my_pjilosophers
+# my_philosophers
