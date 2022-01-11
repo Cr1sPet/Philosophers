@@ -1,4 +1,4 @@
-NAME			=	philosopheres
+NAME			=	philo
 
 SRCS_FILES		=	main.c 
 SRCS_FILES_B	=	
