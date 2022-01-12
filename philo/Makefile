@@ -7,6 +7,9 @@ SRCS_FILES		=	main.c\
 					ft_isdigit.c\
 					init.c\
 					work_philo.c\
+					utils.c\
+					death_monitor.c\
+					
 
 SRCS_FILES_B	=	
 
