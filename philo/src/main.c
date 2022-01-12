@@ -1,10 +1,5 @@
 #include "philo.h"
 
-void	*threadFunc(void* lock){
-	pthread_exit(0);
-}
- 
-
 int main(int argc, char **argv)
 {
 	t_philo	philo;
@@ -13,5 +8,6 @@ int main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	if (!init_philo (&philo, argc, argv))
 		return (EXIT_FAILURE);
+	work_philo(&philo);
 	return (EXIT_SUCCESS);
 }

@@ -6,6 +6,7 @@ SRCS_FILES		=	main.c\
 					valid.c\
 					ft_isdigit.c\
 					init.c\
+					work_philo.c\
 
 SRCS_FILES_B	=	
 
@@ -25,7 +26,7 @@ RM				= @rm -f
 
 PTHREAD			= -pthread
 
-# FLAGS			=  -Wall -Wextra -Werror 
+FLAGS			=  -Wall -Wextra -Werror 
 
 .PHONY:			all clean fclean re bonus
 

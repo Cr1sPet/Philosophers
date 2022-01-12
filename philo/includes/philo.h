@@ -20,6 +20,7 @@ typedef struct s_philo
 
 }   			t_philo;
 
+int		work_philo (t_philo *philo);
 int		ft_isdigit(int ch);
 int		ft_atoi(const char *str);
 int		validation (int argc, char **argv);

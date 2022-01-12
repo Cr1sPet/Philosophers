@@ -25,6 +25,5 @@ int	validation (int argc, char **argv)
 	while (i < argc)
 		if (!check_atoi(argv[i++]))
 			return (0);
-	printf ("hello\n");
 	return (1);
 }
