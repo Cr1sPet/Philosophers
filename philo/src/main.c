@@ -1,9 +1,17 @@
 #include "philo.h"
 
-int main (int argc, char **argv)
+void	*threadFunc(void* lock){
+	pthread_exit(0);
+}
+ 
+
+int main(int argc, char **argv)
 {
-	if (2 == argc)
-		printf("%s\n", argv[1]);
-	printf("Hello World\n");
-	return (0);
+	t_philo	philo;
+
+	if (!validation(argc, argv))
+		return (EXIT_FAILURE);
+	if (!init_philo (&philo, argc, argv))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

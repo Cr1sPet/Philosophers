@@ -1,6 +1,12 @@
 NAME			=	philo
 
-SRCS_FILES		=	main.c 
+SRCS_FILES		=	main.c\
+					ft_atoi.c\
+					ft_strlen.c\
+					valid.c\
+					ft_isdigit.c\
+					init.c\
+
 SRCS_FILES_B	=	
 
 SRCS				=	$(addprefix ./src/, $(SRCS_FILES))
@@ -17,17 +23,19 @@ CC				= gcc
 
 RM				= @rm -f
 
-FLAGS			= -Wall -Wextra -Werror -I${HEADER}
+PTHREAD			= -pthread
+
+# FLAGS			=  -Wall -Wextra -Werror 
 
 .PHONY:			all clean fclean re bonus
 
 all:			$(NAME)
 
 $(NAME):		$(OBJ) $(OBJ_B) $(HEADER)
-				$(CC) -o $(NAME) $(OBJ)
+				$(CC) $(PTHREAD) -o $(NAME) $(OBJ)
 
 %.o:			%.c $(HEADER)
-				$(CC) -g $(FLAGS) -c $< -o $@
+				$(CC) -g $(FLAGS) -I${HEADER} -c $< -o $@
 
 bonus:			
 				
