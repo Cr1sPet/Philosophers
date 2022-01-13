@@ -1,4 +1,4 @@
-k#include "philo.h"
+#include "philo.h"
 
 long	get_abs(long a)
 {
@@ -11,29 +11,33 @@ long	get_abs(long a)
 void *death_mon(void *iphilo)
 {
 	size_t		i;
+	size_t		counter;
 	t_philo *philo;
 
+	counter = 0;
 	philo = (t_philo *)iphilo;
-	while (1)
+	while (counter < philo->nmb)
 	{
 		i = 0;
-		while (i < philo->nmb)
+		while (i < philo->nmb && counter < philo->nmb)
 		{
-			if ((long)(get_time() - philo->time_to_die) >= philo->cur_time[i])
+			if ((long)(get_time() - philo->time_to_die) >= philo->cur_time[i] && philo->death_stat[i])
 			{
-				philo->ok = 0;
 				printf("%ld %lu died\n", philo->cur_time[i], i);
+				philo->death_stat[i] = 0;
+				counter++;
 			}
 			i++;
 		}
 	}
+	return (NULL);
 }
 
 int death_monitor(t_philo *philo)
 {
 	pthread_t monitor;
-	
+		
 	pthread_create(&monitor, NULL, death_mon, (void *)philo);
-	pthread_detach(monitor);
+	pthread_join(monitor, NULL);
 	return (1);
 }

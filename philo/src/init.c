@@ -13,9 +13,21 @@ static int init_time (t_philo *philo)
 	return (1);
 }
 
+static int init_death_stat (t_philo *philo)
+{
+	size_t	i;
+
+	i = 0;
+	philo->death_stat = (int *)malloc(sizeof(int) * philo->nmb);
+	if (NULL == philo->death_stat)
+		return (0);
+	while (i < philo->nmb)
+		philo->death_stat[i++] = 1;
+	return (1);
+}
+
 int	init_philo (t_philo *philo, int argc, char **argv)
 {
-	philo->ok = 1;
 	philo->nmb = ft_atoi(argv[1]);
 	philo->time_to_die = ft_atoi(argv[2]);
 	philo->time_to_eat = ft_atoi(argv[3]);
@@ -31,6 +43,8 @@ int	init_philo (t_philo *philo, int argc, char **argv)
 	if (NULL == philo->locks)
 		return (0);
 	if (!init_time(philo))
+		return (0);
+	if (!init_death_stat(philo))
 		return (0);
 	return (1);
 }

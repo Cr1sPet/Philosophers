@@ -11,7 +11,7 @@
 
 typedef struct s_philo
 {
-	int				ok;
+	int				*death_stat;
 	int				nmb_eats;
 	size_t			nmb;
 	size_t			index;
