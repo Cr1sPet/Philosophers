@@ -65,8 +65,8 @@ int	work_philo (t_philo *philo)
 		// printf("hello\n");
 		i++;
 	}
-	death_monitor(philo);
 	i = 0;
+	death_monitor(philo);
 	while (i < philo->nmb)
 	{
 		pthread_join(philo->philos[i],NULL);
