@@ -8,9 +8,9 @@
 # include <string.h>
 # include <pthread.h>
 
-
 typedef struct s_philo
 {
+	long			start_time;
 	int				*death_stat;
 	int				nmb_eats;
 	size_t			nmb;

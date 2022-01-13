@@ -2,14 +2,19 @@
 
 static int init_time (t_philo *philo)
 {
+
 	size_t				i;
 
 	i = 0;
 	philo->cur_time = (long *)malloc(sizeof (long) * philo->nmb);
 	if (NULL == philo->cur_time)
 		return (0);
+	philo->start_time = get_time(0);
 	while (i < philo->nmb)
-		philo->cur_time[i++] = get_time();
+	{
+		philo->cur_time[i] = 0;
+		i++;
+	}
 	return (1);
 }
 
