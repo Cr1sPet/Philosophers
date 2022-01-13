@@ -29,7 +29,7 @@ void *death_mon(void *iphilo)
 			if (philo->death_stat[i] && (long)(get_time(philo->start_time) - philo->time_to_die) >= philo->cur_time[i])
 			{
 				ok[i] = 1;
-				printf("%06ld %lu died\n", get_time(philo->start_time), i);
+				printf("%06ld %lu died\n", get_time(philo->start_time), i + 1);
 				philo->death_stat[i] = 0;
 				counter++;
 			}
