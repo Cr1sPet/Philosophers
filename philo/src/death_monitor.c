@@ -11,32 +11,23 @@ long	get_abs(long a)
 void *death_mon(void *iphilo)
 {
 	size_t		i;
-	int			*ok;
-	size_t		counter;
+	int			ok;
 	t_philo *philo;
 
-	counter = 0;
 	philo = (t_philo *)iphilo;
-	ok = (int *)malloc(sizeof(int) * philo->nmb);
 	i = 0;
-	while (i < philo->nmb)
-		ok[i++] = 0;
-	while (counter < philo->nmb)
+	ok = 1;
+	while (1 && ok)
 	{
 		i = 0;
-		while (i < philo->nmb && counter < philo->nmb)
+		while (i < philo->nmb && ok)
 		{
-			if (philo->death_stat[i] && (long)(get_time(philo->start_time) - philo->time_to_die) >= philo->cur_time[i])
+			if (philo->nmb == philo->counter)
+				ok = 0;
+			if ((long)(get_time(philo->start_time) - philo->time_to_die) >= philo->cur_time[i])
 			{
-				ok[i] = 1;
-				printf(ANSI_COLOR_RED "%06ld %lu died" ANSI_COLOR_RESET "\n", get_time(philo->start_time), i + 1);
-				philo->death_stat[i] = 0;
-				counter++;
-			}
-			if (!ok[i] && !philo->death_stat[i])
-			{
-				ok[i] = 1;
-				counter++;
+				printf("%06ld %lu died\n", get_time(philo->start_time), i + 1);
+				ok = 0;
 			}
 			i++;
 		}

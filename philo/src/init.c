@@ -16,23 +16,27 @@ static int init_time (t_philo *philo)
 		i++;
 	}
 	return (1);
-}
+} 
 
-static int init_death_stat (t_philo *philo)
+static int init_lock (t_philo *philo)
 {
 	size_t	i;
 
 	i = 0;
-	philo->death_stat = (int *)malloc(sizeof(int) * philo->nmb);
-	if (NULL == philo->death_stat)
+	philo->locks = (pthread_mutex_t *)malloc(sizeof (pthread_mutex_t) * (philo->nmb));
+	if (NULL == philo->locks)
 		return (0);
 	while (i < philo->nmb)
-		philo->death_stat[i++] = 1;
+	{
+		if (0 != pthread_mutex_init(&philo->locks[i++], NULL))
+			return (0);
+	}
 	return (1);
 }
 
 int	init_philo (t_philo *philo, int argc, char **argv)
 {
+	philo->counter = 0;
 	philo->nmb = ft_atoi(argv[1]);
 	philo->time_to_die = ft_atoi(argv[2]);
 	philo->time_to_eat = ft_atoi(argv[3]);
@@ -44,12 +48,9 @@ int	init_philo (t_philo *philo, int argc, char **argv)
 	philo->philos = (pthread_t *)malloc(sizeof (pthread_t) * (philo->nmb));
 	if (NULL == philo->philos)
 		return (0);
-	philo->locks = (pthread_mutex_t *)malloc(sizeof (pthread_mutex_t) * (philo->nmb));
-	if (NULL == philo->locks)
-		return (0);
 	if (!init_time(philo))
 		return (0);
-	if (!init_death_stat(philo))
+	if (!init_lock(philo))
 		return (0);
 	return (1);
 }
