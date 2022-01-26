@@ -1,23 +1,5 @@
 #include "philo.h"
 
-static int init_time (t_philo *philo)
-{
-
-	size_t				i;
-
-	i = 0;
-	philo->cur_time = (long *)malloc(sizeof (long) * philo->nmb);
-	if (NULL == philo->cur_time)
-		return (0);
-	philo->start_time = get_time(0);
-	while (i < philo->nmb)
-	{
-		philo->cur_time[i] = 0;
-		i++;
-	}
-	return (1);
-} 
-
 static int init_lock (t_philo *philo)
 {
 	size_t	i;
@@ -36,6 +18,29 @@ static int init_lock (t_philo *philo)
 	return (1);
 }
 
+int	init_member(t_philo *philo)
+{
+	size_t	i;
+
+	i = 0;
+	philo->members = (t_member *) malloc (philo->nmb);
+	if (NULL == philo->members)
+		return (0);
+	while (i < philo->nmb)
+	{
+		philo->members[i].index = i;
+		philo->members[i].last_eat = 0;
+		philo->members[i].left = philo->locks[i];
+		if (i == philo->nmb - 1)
+			philo->members[i].right = philo->locks[0];
+		else
+			philo->members[i].right = philo->locks[i + 1];
+		i++;
+	}
+	philo->members->inf = philo;
+	return (1);
+}
+
 int	init_philo(t_philo *philo, int argc, char **argv)
 {
 	philo->counter = 0;
@@ -47,12 +52,9 @@ int	init_philo(t_philo *philo, int argc, char **argv)
 		philo->nmb_eats = ft_atoi(argv[5]);
 	else
 		philo->nmb_eats = -1;
-	philo->philos = (pthread_t *)malloc(sizeof (pthread_t) * (philo->nmb));
-	if (NULL == philo->philos)
-		return (0);
-	if (!init_time(philo))
-		return (0);
 	if (!init_lock(philo))
+		return (0);
+	if (!init_member(philo))
 		return (0);
 	return (1);
 }

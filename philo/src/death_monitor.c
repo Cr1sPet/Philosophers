@@ -24,7 +24,7 @@ void	*death_mon(void *iphilo)
 		{
 			if (philo->nmb == philo->counter)
 				ok = 0;
-			if ((long)(get_time(philo->start_time) - philo->time_to_die) > philo->cur_time[i])
+			if ((long)(get_time(philo->start_time) - philo->time_to_die) > philo->members[i].last_eat)
 			{
 				pthread_mutex_lock(&philo->print);
 				printf("%06ld %lu died\n", get_time(philo->start_time), i + 1);

@@ -16,22 +16,29 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
+typedef struct s_member
+{
+	int				index;
+	long			last_eat;
+	pthread_mutex_t	left;
+	pthread_mutex_t	right;
+	pthread_t		member;
+	struct s_philo	*inf;
+}					t_member;
+
 typedef struct s_philo
 {
-
+	int				nmb_eats;
 	long			start_time;
 	size_t			counter;
-	int				nmb_eats;
 	size_t			nmb;
-	size_t			index;
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	pthread_t		*philos;
 	pthread_mutex_t	*locks;
 	pthread_mutex_t count;
 	pthread_mutex_t print;
-	long			*cur_time;
+	t_member		*members;
 }   			t_philo;
 
 long	get_time();
