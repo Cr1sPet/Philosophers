@@ -16,24 +16,24 @@ void	*threadFunc(void* iphilo)
 		right = p_indx + 1;
 	while (1)
 	{
-		printf("%06ld %lu is thinking\n", get_time(philo->start_time), p_indx + 1);
+		print_info(philo, "%06ld %lu is thinking\n", p_indx + 1);
 		pthread_mutex_lock(&philo->locks[p_indx]);
-		printf("%06ld %lu has taken a fork\n", philo->cur_time[p_indx], p_indx + 1);
+		print_info(philo, "%06ld %lu has taken a fork\n", p_indx + 1);
 		pthread_mutex_lock(&philo->locks[right]);
-		printf("%06ld %lu has taken a fork\n", philo->cur_time[p_indx], p_indx + 1);
+		print_info(philo, "%06ld %lu has taken a fork\n", p_indx + 1);
 		philo->cur_time[p_indx] = get_time(philo->start_time);
-		printf("%06ld %lu is eating\n", philo->cur_time[p_indx], p_indx + 1);
+		print_info(philo, "%06ld %lu is eating\n", p_indx + 1);
 		usleep(philo->time_to_eat * 1000);
 		if (++i == philo->nmb_eats)
 		{
 			philo->counter++;
 			pthread_mutex_unlock(&philo->locks[right]);
 			pthread_mutex_unlock(&philo->locks[p_indx]);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&philo->locks[right]);
 		pthread_mutex_unlock(&philo->locks[p_indx]);
-		printf("%06ld %lu is sleeping\n", get_time(philo->start_time), p_indx + 1);
+		print_info(philo, "%06ld %lu is sleeping\n", p_indx + 1);
 		usleep(philo->time_to_sleep * 1000);
 	}
 	pthread_exit(0);

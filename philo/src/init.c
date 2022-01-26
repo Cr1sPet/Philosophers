@@ -31,10 +31,12 @@ static int init_lock (t_philo *philo)
 		if (0 != pthread_mutex_init(&philo->locks[i++], NULL))
 			return (0);
 	}
+	if (0 != pthread_mutex_init(&philo->print, NULL))
+			return (0);
 	return (1);
 }
 
-int	init_philo (t_philo *philo, int argc, char **argv)
+int	init_philo(t_philo *philo, int argc, char **argv)
 {
 	philo->counter = 0;
 	philo->nmb = ft_atoi(argv[1]);

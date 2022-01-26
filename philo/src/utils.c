@@ -11,3 +11,10 @@ long	get_time(long align)
 	ret += c_time.tv_usec / 1000;
 	return (ret - align);
 }
+
+void	print_info (t_philo *philo, char *out, int index)
+{
+	pthread_mutex_lock(&philo->print);
+	printf(out, get_time(philo->start_time), index);
+	pthread_mutex_unlock(&philo->print);
+}

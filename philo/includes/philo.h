@@ -18,8 +18,9 @@
 
 typedef struct s_philo
 {
+
 	long			start_time;
-	size_t				counter;
+	size_t			counter;
 	int				nmb_eats;
 	size_t			nmb;
 	size_t			index;
@@ -29,6 +30,7 @@ typedef struct s_philo
 	pthread_t		*philos;
 	pthread_mutex_t	*locks;
 	pthread_mutex_t count;
+	pthread_mutex_t print;
 	long			*cur_time;
 }   			t_philo;
 
@@ -40,5 +42,6 @@ int		ft_atoi(const char *str);
 int		validation (int argc, char **argv);
 int		init_philo (t_philo *philo, int argc, char **argv);
 size_t	ft_strlen(const char *str);
+void	print_info (t_philo *philo, char *out, int index);
 
 # endif
