@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   death_monitor.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/29 18:48:52 by jchopped          #+#    #+#             */
+/*   Updated: 2022/01/29 19:13:11 by jchopped         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 long	get_abs(long a)
@@ -27,7 +39,7 @@ void	*death_mon(void *iphilo)
 			if ((long)(get_time(philo->start_time) - philo->time_to_die) > philo->cur_time[i])
 			{
 				pthread_mutex_lock(&philo->print);
-				printf("%06ld %lu died\n", get_time(philo->start_time), i + 1);
+				printf("%12ld %lu died\n", get_time(philo->start_time), i + 1);
 				ok = 0;
 			}
 			i++;
@@ -42,5 +54,6 @@ int	death_monitor(t_philo *philo)
 
 	pthread_create(&monitor, NULL, death_mon, (void *)philo);
 	pthread_join(monitor, NULL);
+	// pthread_detach(monitor);
 	return (1);
 }

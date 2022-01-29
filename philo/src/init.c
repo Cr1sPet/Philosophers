@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/29 18:48:44 by jchopped          #+#    #+#             */
+/*   Updated: 2022/01/29 18:48:44 by jchopped         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-static int init_time (t_philo *philo)
+static int	init_time(t_philo *philo)
 {
-
-	size_t				i;
+	size_t	i;
 
 	i = 0;
 	philo->cur_time = (long *)malloc(sizeof (long) * philo->nmb);
@@ -12,13 +23,13 @@ static int init_time (t_philo *philo)
 	philo->start_time = get_time(0);
 	while (i < philo->nmb)
 	{
-		philo->cur_time[i] = 0;
+		philo->cur_time[i] = get_time(philo->start_time);
 		i++;
 	}
 	return (1);
-} 
+}
 
-static int init_lock (t_philo *philo)
+static int	init_lock(t_philo *philo)
 {
 	size_t	i;
 
@@ -32,7 +43,7 @@ static int init_lock (t_philo *philo)
 			return (0);
 	}
 	if (0 != pthread_mutex_init(&philo->print, NULL))
-			return (0);
+		return (0);
 	return (1);
 }
 

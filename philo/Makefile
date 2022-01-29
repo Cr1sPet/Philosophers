@@ -29,7 +29,7 @@ RM				= @rm -f
 
 PTHREAD			= -pthread
 
-FLAGS			=  -Wall -Wextra -Werror 
+# FLAGS			=  -Wall -Wextra -Werror 
 
 .PHONY:			all clean fclean re bonus
 

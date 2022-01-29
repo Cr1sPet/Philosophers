@@ -12,7 +12,7 @@ void *death_mon(void *iphilo)
 {
 	size_t		i;
 	int			ok;
-	t_philo *philo;
+	t_philo		*philo;
 
 	philo = (t_philo *)iphilo;
 	i = 0;

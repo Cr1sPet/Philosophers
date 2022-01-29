@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/29 16:22:43 by jchopped          #+#    #+#             */
+/*   Updated: 2022/01/29 16:22:57 by jchopped         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -30,7 +42,7 @@ typedef struct s_philo
 	size_t			time_to_sleep;
 	pthread_t		*philos;
 	sem_t			*sem;
-	pthread_mutex_t count;
+	pthread_mutex_t	count;
 	long			*cur_time;
 }   			t_philo;
 
@@ -44,4 +56,4 @@ int		init_philo (t_philo *philo, int argc, char **argv);
 size_t	ft_strlen(const char *str);
 void	clear_philo(t_philo *philo);
 
-# endif
+#endif

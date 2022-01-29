@@ -35,6 +35,7 @@ typedef struct s_philo
 }   			t_philo;
 
 long	get_time();
+void	ft_sleep(t_philo *philo, long limit);
 int		death_monitor(t_philo *philo);
 int		work_philo (t_philo *philo);
 int		ft_isdigit(int ch);
