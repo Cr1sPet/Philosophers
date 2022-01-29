@@ -36,13 +36,16 @@ void	*death_mon(void *iphilo)
 		{
 			if (philo->nmb == philo->counter)
 				ok = 0;
+			pthread_mutex_lock(&philo->times[i]);
 			if ((long)(get_time(philo->start_time) - philo->time_to_die) > philo->cur_time[i])
 			{
 				pthread_mutex_lock(&philo->print);
 				printf("%12ld %lu died\n", get_time(philo->start_time), i + 1);
 				ok = 0;
 			}
+			pthread_mutex_unlock(&philo->times[i]);
 			i++;
+			usleep(500);
 		}
 	}
 	return (NULL);

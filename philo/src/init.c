@@ -42,6 +42,15 @@ static int	init_lock(t_philo *philo)
 		if (0 != pthread_mutex_init(&philo->locks[i++], NULL))
 			return (0);
 	}
+	philo->times = (pthread_mutex_t *)malloc(sizeof (pthread_mutex_t) * (philo->nmb));
+	if (NULL == philo->times)
+		return (0);
+	i = 0;
+	while (i < philo->nmb)
+	{
+		if (0 != pthread_mutex_init(&philo->times[i++], NULL))
+			return (0);
+	}
 	if (0 != pthread_mutex_init(&philo->print, NULL))
 		return (0);
 	return (1);

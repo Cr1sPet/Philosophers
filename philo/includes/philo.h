@@ -29,8 +29,8 @@ typedef struct s_philo
 	size_t			time_to_sleep;
 	pthread_t		*philos;
 	pthread_mutex_t	*locks;
-	pthread_mutex_t count;
 	pthread_mutex_t print;
+	pthread_mutex_t *times;
 	long			*cur_time;
 }   			t_philo;
 

@@ -21,7 +21,9 @@ void	*threadFunc(void* iphilo)
 		print_info(philo, "%12ld %lu has taken a fork\n", p_indx + 1);
 		pthread_mutex_lock(&philo->locks[right]);
 		print_info(philo, "%12ld %lu has taken a fork\n", p_indx + 1);
+		pthread_mutex_lock(&philo->times[p_indx]);
 		philo->cur_time[p_indx] = get_time(philo->start_time);
+		pthread_mutex_unlock(&philo->times[p_indx]);
 		print_info(philo, "%12ld %lu is eating\n", p_indx + 1);
 		// usleep(philo->time_to_eat * 1000);
 		ft_sleep(philo, philo->time_to_eat);
@@ -51,7 +53,7 @@ int	work_philo (t_philo *philo)
 	{
 		philo->index = i;
 		pthread_create(&philo->philos[philo->index], NULL, threadFunc, (void *)philo);
-		usleep(10);
+		usleep(100);
 		i++;
 	}
 	i = 0;
