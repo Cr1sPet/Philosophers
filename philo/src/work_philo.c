@@ -10,33 +10,43 @@ void	*threadFunc(void* imember)
 
 	i = 0;
 	member = (t_member *)imember;
-	if (member->index == member->philo->nmb - 1)
-		right = 0;
+	if (member->index % 2 == 0 && member->index != member->philo->nmb - 1)
+	{
+		left = member->index + 1;
+		right = member->index;
+	}
 	else
-	 	right = member->index + 1;
+	{
+		left = member->index;
+		if (member->index == member->philo->nmb - 1)
+			right = 0;
+		else
+	 		right = member->index + 1;
+	}
+	member->last_eat = get_time(0);
 	while (1)
 	{
 		print_info(member->philo, "%12ld %lu is thinking\n", member->index + 1);
-		pthread_mutex_lock(&member->mem_lock);
+		pthread_mutex_lock(&member->philo->members[left].mem_lock);
 		print_info(member->philo, "%12ld %lu has taken a fork\n", member->index + 1);
 		pthread_mutex_lock(&member->philo->members[right].mem_lock);
 		print_info(member->philo, "%12ld %lu has taken a fork\n", member->index + 1);
-		pthread_mutex_lock(&member->time_lock);
-		member->last_eat = get_time(member->philo->start_time);
-		pthread_mutex_unlock(&member->time_lock);
+		// pthread_mutex_lock(&member->time_lock);
+		// pthread_mutex_unlock(&member->time_lock);
 		print_info(member->philo, "%12ld %lu is eating\n", member->index + 1);
 		// usleep(philo->time_to_eat * 1000);
+		member->last_eat = get_time(0);
 		ft_sleep(member->philo, member->philo->time_to_eat);
 		if (++i == member->philo->nmb_eats)
 		{
 			member->philo->counter++;
 			pthread_mutex_unlock(&member->philo->members[right].mem_lock);
-			pthread_mutex_unlock(&member->mem_lock);
+			pthread_mutex_unlock(&member->philo->members[left].mem_lock);
 			break ;
 		}
 		pthread_mutex_unlock(&member->philo->members[right].mem_lock);
-			pthread_mutex_unlock(&member->mem_lock);
-		print_info(member->philo, "%12ld %lu is sleeping\n", p_indx + 1);
+		pthread_mutex_unlock(&member->philo->members[left].mem_lock);
+		print_info(member->philo, "%12ld %lu is sleeping\n", member->index + 1);
 		ft_sleep(member->philo, member->philo->time_to_sleep);
 		// usleep(philo->time_to_sleep * 1000);
 	}
@@ -47,8 +57,9 @@ int	work_philo (t_philo *philo)
 {
 	size_t	i;
 
-	i = 0;
-	while (i < philo->nmb)
+	i = philo->nmb;
+	philo->start_time = get_time(0);
+	while (i--)
 	{
 		pthread_create(&philo->members[i].mem_thread, NULL, threadFunc, (void *)&philo->members[i]);
 		// usleep(100);

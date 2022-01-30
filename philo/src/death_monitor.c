@@ -36,18 +36,18 @@ void	*death_mon(void *iphilo)
 		{
 			if (philo->nmb == philo->counter)
 				ok = 0;
-			pthread_mutex_lock(&philo->members[i].time_lock);
-			if ((long)(get_time(philo->start_time) - philo->time_to_die) >= philo->members[i].last_eat)
+			// pthread_mutex_lock(&philo->members[i].time_lock);
+			if ((long)(get_time(0) - philo->members[i].last_eat) >  philo->time_to_die)
 			{
 				pthread_mutex_lock(&philo->print);
 				printf("%12ld %lu died\n", get_time(philo->start_time), i + 1);
 				ok = 0;
 			}
-			if (ok)
-				pthread_mutex_unlock(&philo->members[i].time_lock);
+			// if (ok)
+				// pthread_mutex_unlock(&philo->members[i].time_lock);
 			i++;
 			// usleep(1000);
-			ft_sleep(philo, 2);
+			// ft_sleep(philo, 2);
 		}
 	}
 	return (NULL);

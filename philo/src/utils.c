@@ -20,8 +20,10 @@ void	ft_sleep(t_philo *philo, long limit)
 	long	this_start;
 
 	this_start = get_time(philo->start_time);
+	// usleep(limit * 920);
 	while (get_time (philo->start_time) - this_start < limit)
-		;
+		usleep(3 * limit);
+		
 	// while (i < limit * 1000)
 	// {
 	// 	usleep(1);

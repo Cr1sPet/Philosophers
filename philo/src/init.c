@@ -67,7 +67,7 @@ int	init_members(t_philo *philos)
 	while (i < philos->nmb)
 	{
 		philos->members[i].index = i;
-		philos->members[i].last_eat = get_time(philos->start_time);
+		// philos->members[i].last_eat = get_time(philos->start_time);
 		if (0 != pthread_mutex_init(&philos->members[i].time_lock, NULL))
 			return (0);
 		if (0 != pthread_mutex_init(&philos->members[i].mem_lock, NULL))
@@ -89,7 +89,6 @@ int	init_philo(t_philo *philo, int argc, char **argv)
 		philo->nmb_eats = ft_atoi(argv[5]);
 	else
 		philo->nmb_eats = -1;
-	philo->start_time = get_time(0);
 	if (!init_members(philo))
 		return (0);
 	if (0 != pthread_mutex_init(&philo->print, NULL))
