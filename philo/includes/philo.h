@@ -22,12 +22,15 @@ typedef struct s_member
 	size_t			index;
 	long			last_eat;
 	pthread_t		mem_thread;
+	pthread_t		mem_monitor;
 	pthread_mutex_t	mem_lock;
 	pthread_mutex_t	time_lock;
 	struct s_philo	*philo;
 }				t_member;
 typedef struct s_philo
 {
+	pthread_mutex_t	mutex;
+	pthread_mutex_t	main_lock;
 	t_member		*members;
 	long			start_time;
 	size_t			counter;
