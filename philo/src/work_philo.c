@@ -1,43 +1,43 @@
 #include "philo.h"
 
-void	*threadFunc(void* iphilo)
+void	*threadFunc(void* imember)
 {
 	int		i;
 	size_t		p_indx;
-	int		right;
-	t_philo	*philo;
+	int			left;
+	int			right;
+	t_member	*member;
 
 	i = 0;
-	philo = (t_philo *)iphilo;
-	p_indx = philo->index;
-	if (p_indx == philo->nmb - 1)
+	member = (t_member *)imember;
+	if (member->index == member->philo->nmb - 1)
 		right = 0;
 	else
-	 	right = p_indx + 1;
+	 	right = member->index + 1;
 	while (1)
 	{
-		print_info(philo, "%12ld %lu is thinking\n", p_indx + 1);
-		pthread_mutex_lock(&philo->locks[p_indx]);
-		print_info(philo, "%12ld %lu has taken a fork\n", p_indx + 1);
-		pthread_mutex_lock(&philo->locks[right]);
-		print_info(philo, "%12ld %lu has taken a fork\n", p_indx + 1);
-		pthread_mutex_lock(&philo->times[p_indx]);
-		philo->cur_time[p_indx] = get_time(philo->start_time);
-		pthread_mutex_unlock(&philo->times[p_indx]);
-		print_info(philo, "%12ld %lu is eating\n", p_indx + 1);
+		print_info(member->philo, "%12ld %lu is thinking\n", member->index + 1);
+		pthread_mutex_lock(&member->mem_lock);
+		print_info(member->philo, "%12ld %lu has taken a fork\n", member->index + 1);
+		pthread_mutex_lock(&member->philo->members[right].mem_lock);
+		print_info(member->philo, "%12ld %lu has taken a fork\n", member->index + 1);
+		pthread_mutex_lock(&member->time_lock);
+		member->last_eat = get_time(member->philo->start_time);
+		pthread_mutex_unlock(&member->time_lock);
+		print_info(member->philo, "%12ld %lu is eating\n", member->index + 1);
 		// usleep(philo->time_to_eat * 1000);
-		ft_sleep(philo, philo->time_to_eat);
-		if (++i == philo->nmb_eats)
+		ft_sleep(member->philo, member->philo->time_to_eat);
+		if (++i == member->philo->nmb_eats)
 		{
-			philo->counter++;
-			pthread_mutex_unlock(&philo->locks[right]);
-			pthread_mutex_unlock(&philo->locks[p_indx]);
+			member->philo->counter++;
+			pthread_mutex_unlock(&member->philo->members[right].mem_lock);
+			pthread_mutex_unlock(&member->mem_lock);
 			break ;
 		}
-		pthread_mutex_unlock(&philo->locks[right]);
-		pthread_mutex_unlock(&philo->locks[p_indx]);
-		print_info(philo, "%12ld %lu is sleeping\n", p_indx + 1);
-		ft_sleep(philo, philo->time_to_sleep);
+		pthread_mutex_unlock(&member->philo->members[right].mem_lock);
+			pthread_mutex_unlock(&member->mem_lock);
+		print_info(member->philo, "%12ld %lu is sleeping\n", p_indx + 1);
+		ft_sleep(member->philo, member->philo->time_to_sleep);
 		// usleep(philo->time_to_sleep * 1000);
 	}
 	pthread_exit(0);
@@ -48,18 +48,16 @@ int	work_philo (t_philo *philo)
 	size_t	i;
 
 	i = 0;
-	philo->index = 0;
 	while (i < philo->nmb)
 	{
-		philo->index = i;
-		pthread_create(&philo->philos[philo->index], NULL, threadFunc, (void *)philo);
-		usleep(100);
+		pthread_create(&philo->members[i].mem_thread, NULL, threadFunc, (void *)&philo->members[i]);
+		// usleep(100);
 		i++;
 	}
 	i = 0;
 	while (i < philo->nmb)
 	{
-		pthread_detach(philo->philos[i]);
+		pthread_detach(philo->members[i].mem_thread);
 		i++;
 	}
 	death_monitor(philo);
