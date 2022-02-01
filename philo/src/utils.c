@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/01 13:53:10 by jchopped          #+#    #+#             */
+/*   Updated: 2022/02/01 13:53:10 by jchopped         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 long	get_time(long align)
@@ -15,20 +27,12 @@ long	get_time(long align)
 void	ft_sleep(t_philo *philo, long limit)
 {
 	long	i;
-
-	i = 0;
 	long	this_start;
 
+	i = 0;
 	this_start = get_time(philo->start_time);
-	// usleep(limit * 920);
 	while (get_time (philo->start_time) - this_start < limit)
 		usleep(3 * limit);
-		
-	// while (i < limit * 1000)
-	// {
-	// 	usleep(1);
-	// 	i++;
-	// }
 }
 
 void	print_info(t_philo *philo, char *out, int index)
