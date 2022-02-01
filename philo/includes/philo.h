@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:10:12 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 20:17:41 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/01 22:29:35 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_philo
 	pthread_mutex_t	all;
 }					t_philo;
 
+void	threads_join(t_philo *philo);
 int		clear_philo(t_philo *philo);
 int		check_eat_nmb(t_philo *philo);
 long	get_time(long align);

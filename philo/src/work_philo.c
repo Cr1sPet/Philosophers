@@ -6,11 +6,23 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:54:16 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 21:44:13 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/01 22:28:52 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	threads_join(t_philo *philo)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < philo->nmb)
+		pthread_mutex_unlock(&philo->locks[i++]);
+	i = 0;
+	while (i < philo->nmb)
+		pthread_join(philo->members[i++].mem_thread, NULL);
+}
 
 void	taking_forks(t_member *member)
 {
@@ -33,12 +45,6 @@ void	eating(t_member	*member, int *i)
 		member->philo->counter++;
 }
 
-void	sleeping(t_member *member)
-{
-	print_info(member->philo, "%12ld %lu is sleeping\n", member->index, 0);
-	ft_sleep(member->philo, member->philo->time_to_sleep);
-}
-
 void	*thread_func(void	*imember)
 {
 	int				i;
@@ -46,41 +52,22 @@ void	*thread_func(void	*imember)
 
 	i = 0;
 	member = (t_member *)imember;
-	while (!member->philo->stop)
+	while (!member->philo->stop && !check_eat_nmb(member->philo))
 	{
 		if (member->philo->stop || check_eat_nmb(member->philo))
-		{
-			printf ("%zu THREAD FINISHED\n", member->index + 1);
-			break;
-		}
+			break ;
 		taking_forks(member);
 		if (member->philo->stop || check_eat_nmb(member->philo))
-		{
-			printf ("%zu THREAD FINISHED\n", member->index + 1);
-			break;
-		}
+			break ;
 		eating(member, &i);
 		if (member->philo->stop || check_eat_nmb(member->philo))
-		{
-			printf ("%zu THREAD FINISHED\n", member->index + 1);
-			break;
-		}
-		sleeping(member);
+			break ;
+		print_info(member->philo, "%12ld %lu is sleeping\n", member->index, 0);
+		ft_sleep(member->philo, member->philo->time_to_sleep);
 		if (member->philo->stop || check_eat_nmb(member->philo))
-		{
-			printf ("%zu THREAD FINISHED\n", member->index + 1);
-			break;
-		}
+			break ;
 		print_info(member->philo, "%12ld %lu is thinking\n", member->index, 0);
-		if (member->philo->stop || check_eat_nmb(member->philo))
-		{
-			printf ("%zu THREAD FINISHED\n", member->index + 1);
-			break;
-		}
 	}
-	pthread_mutex_unlock(member->first);
-	pthread_mutex_unlock(member->second);
-	printf ("%zu THREAD FINISHED\n", member->index + 1);
 	return (NULL);
 }
 
@@ -88,14 +75,14 @@ int	work_philo(t_philo *philo)
 {
 	size_t	i;
 
-	i = philo->nmb;
+	i = 0;
 	philo->start_time = get_time(0);
-	while (i--)
+	while (i < philo->nmb)
 	{
 		pthread_create(&philo->members[i].mem_thread, NULL, thread_func, \
 			(void *)&philo->members[i]);
+		i++;
 	}
 	death_monitor(philo);
-	printf("PHILO->STOP: %d\n", philo->stop);
 	return (1);
 }

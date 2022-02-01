@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 18:48:52 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 21:36:00 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/01 22:31:16 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	check_eat_nmb(t_philo *philo)
 	if (philo->nmb == philo->counter)
 	{
 		philo->stop = 1;
-		printf("HEY\n");
 		return (1);
 	}
 	return (0);
@@ -52,10 +51,7 @@ void	*death_mon(void *iphilo)
 			}
 			pthread_mutex_unlock(&philo->members[i].time_lock);
 			if (check_eat_nmb(philo))
-			{
-				printf ("LAST: %zu\n", i + 1);
 				return (NULL);
-			}
 		}
 	}
 	return (NULL);
@@ -67,6 +63,5 @@ int	death_monitor(t_philo *philo)
 
 	pthread_create(&monitor, NULL, death_mon, (void *)philo);
 	pthread_join(monitor, NULL);
-	printf ("MONITOR FINISHED\n");
 	return (1);
 }
