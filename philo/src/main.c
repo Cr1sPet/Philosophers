@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 18:47:05 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 17:21:06 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/01 18:35:03 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	main(int argc, char **argv)
 	if (!init_philo (&philo, argc, argv))
 		return (EXIT_FAILURE);
 	work_philo(&philo);
+	pthread_mutex_lock(&philo.all);
+	pthread_mutex_unlock(&philo.all);
 	if (!clear_philo(&philo))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

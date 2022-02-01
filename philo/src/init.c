@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 18:48:44 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 15:47:38 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/01 18:52:47 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	init_members(t_philo *philos)
 
 int	init_philo(t_philo *philo, int argc, char **argv)
 {
+	philo->stop = 0;
 	philo->counter = 0;
 	philo->start_time = get_time(0);
 	philo->nmb = ft_atoi(argv[1]);
@@ -91,6 +92,9 @@ int	init_philo(t_philo *philo, int argc, char **argv)
 		return (0);
 	if (0 != pthread_mutex_init(&philo->print, NULL))
 		return (0);
+	if (0 != pthread_mutex_init(&philo->all, NULL))
+		return (0);
+	pthread_mutex_lock(&philo->all);
 	if (!init_members(philo))
 		return (0);
 	return (1);

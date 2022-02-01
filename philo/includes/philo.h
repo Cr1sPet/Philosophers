@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:10:12 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 16:57:40 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/01 18:51:14 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_member
 
 typedef struct s_philo
 {
+	int				stop;
 	int				nmb_eats;
 	long			start_time;
 	size_t			nmb;
@@ -44,7 +45,9 @@ typedef struct s_philo
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	pthread_mutex_t	*locks;
+	pthread_mutex_t	check;
 	pthread_mutex_t	print;
+	pthread_mutex_t	all;
 }					t_philo;
 
 int		check_eat_nmb(t_philo *philo);

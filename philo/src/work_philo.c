@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:54:16 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 17:28:25 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/01 19:03:00 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,14 @@
 void	taking_forks(t_member *member)
 {
 	pthread_mutex_lock(member->first);
-	print_info(member->philo, "%12ld %lu has taken a fork\n",
-		member->index + 1);
+	print_info(member->philo, "%12ld %lu has taken a fork\n", member->index);
 	pthread_mutex_lock(member->second);
-	print_info(member->philo, "%12ld %lu has taken a fork\n",
-		member->index + 1);
+	print_info(member->philo, "%12ld %lu has taken a fork\n", member->index);
 }
 
 void	eating(t_member	*member, int *i)
 {
-	print_info(member->philo, "%12ld %lu is eating\n", member->index + 1);
+	print_info(member->philo, "%12ld %lu is eating\n", member->index);
 	pthread_mutex_lock(&member->time_lock);
 	member->last_eat = get_time(0);
 	pthread_mutex_unlock(&member->time_lock);
@@ -32,15 +30,14 @@ void	eating(t_member	*member, int *i)
 	pthread_mutex_unlock(member->first);
 	pthread_mutex_unlock(member->second);
 	if (++(*i) == member->philo->nmb_eats)
-			member->philo->counter++;
+		member->philo->counter++;
 }
 
 void	sleeping(t_member *member)
 {
-	print_info(member->philo, "%12ld %lu is sleeping\n", member->index + 1);
+	print_info(member->philo, "%12ld %lu is sleeping\n", member->index);
 	ft_sleep(member->philo, member->philo->time_to_sleep);
-	print_info(member->philo, "%12ld %lu is thinking\n",
-		member->index + 1);
+	print_info(member->philo, "%12ld %lu is thinking\n", member->index);
 }
 
 void	*thread_func(void	*imember)
@@ -50,11 +47,19 @@ void	*thread_func(void	*imember)
 
 	i = 0;
 	member = (t_member *)imember;
-	while (!member->stop)
+	while (!check_eat_nmb(member->philo))
 	{
+		if (member->philo->stop || check_eat_nmb(member->philo))
+			return (NULL);
 		taking_forks(member);
+		if (member->philo->stop || check_eat_nmb(member->philo))
+			return (NULL);
 		eating(member, &i);
+		if (member->philo->stop || check_eat_nmb(member->philo))
+			return (NULL);
 		sleeping(member);
+		if (member->philo->stop || check_eat_nmb(member->philo))
+			return (NULL);
 	}
 	return (NULL);
 }
