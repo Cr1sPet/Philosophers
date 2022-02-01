@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:54:16 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 15:14:00 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/01 15:19:51 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ int	eating(t_member	*member, int *i)
 	pthread_mutex_unlock(member->first);
 	pthread_mutex_unlock(member->second);
 	if (++(*i) == member->philo->nmb_eats)
-	{
 		member->philo->counter++;
-		return (0);
-	}
 	return (1);
 }
 

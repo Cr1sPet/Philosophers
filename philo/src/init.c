@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 18:48:44 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 15:12:14 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/01 15:24:18 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,11 @@ int	init_philo(t_philo *philo, int argc, char **argv)
 	philo->time_to_eat = ft_atoi(argv[3]);
 	philo->time_to_sleep = ft_atoi(argv[4]);
 	if (6 == argc)
+	{
 		philo->nmb_eats = ft_atoi(argv[5]);
+		if (0 == philo->nmb_eats)
+			return (0);
+	}
 	else
 		philo->nmb_eats = -1;
 	if (!init_lock(philo))
