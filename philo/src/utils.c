@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:53:10 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 19:00:53 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/01 21:48:07 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,39 @@ void	ft_sleep(t_philo *philo, long limit)
 		usleep(3 * limit);
 }
 
-void	print_info(t_philo *philo, char *out, int index)
+void	print_info(t_philo *philo, char *out, int index, int flag)
 {
-	pthread_mutex_lock(&philo->print);
-	if (!check_eat_nmb(philo))
+	// pthread_mutex_lock(&philo->print);
+	if (0 == philo->stop || flag)
+	{
+		printf("HOHHOOHH %d", philo->stop);
 		printf(out, get_time(philo->members[index].start_time), index + 1);
+	}
+	// pthread_mutex_unlock(&philo->print);
+}
+
+int	clear_philo(t_philo *philo)
+{
+	size_t	i;
+
+	i = 0;
+	pthread_mutex_unlock(&philo->set);
+	pthread_mutex_destroy(&philo->set);
 	pthread_mutex_unlock(&philo->print);
+	pthread_mutex_destroy(&philo->print);
+	if (philo->locks)
+	{
+		while (i < philo->nmb)
+		{
+			pthread_mutex_unlock(&philo->locks[i]);
+			pthread_mutex_destroy(&philo->locks[i]);
+			pthread_mutex_unlock(&philo->members[i].time_lock);
+			pthread_mutex_destroy(&philo->members[i].time_lock);
+			i++;
+		}
+		free(philo->locks);
+	}
+	if (philo->members)
+		free (philo->members);
+	return (1);
 }

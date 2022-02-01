@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 18:48:52 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 19:01:41 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/01 21:36:00 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void	work_died(t_philo *philo, int i)
 {
-	print_info(philo, "%12ld %d died\n", i);
 	philo->stop = 1;
-	pthread_mutex_unlock(&philo->all);
+	print_info(philo, "%12ld %d died\n", i, 1);
 }
 
 int	check_eat_nmb(t_philo *philo)
@@ -26,7 +25,7 @@ int	check_eat_nmb(t_philo *philo)
 	if (philo->nmb == philo->counter)
 	{
 		philo->stop = 1;
-		pthread_mutex_unlock(&philo->all);
+		printf("HEY\n");
 		return (1);
 	}
 	return (0);
@@ -38,7 +37,7 @@ void	*death_mon(void *iphilo)
 	t_philo		*philo;
 
 	philo = (t_philo *)iphilo;
-	while (!philo->stop)
+	while (1)
 	{
 		i = -1;
 		while (++i < philo->nmb)
@@ -48,11 +47,15 @@ void	*death_mon(void *iphilo)
 				> (long)philo->time_to_die)
 			{
 				work_died(philo, i);
+				pthread_mutex_unlock(&philo->members[i].time_lock);
 				return (NULL);
 			}
 			pthread_mutex_unlock(&philo->members[i].time_lock);
 			if (check_eat_nmb(philo))
+			{
+				printf ("LAST: %zu\n", i + 1);
 				return (NULL);
+			}
 		}
 	}
 	return (NULL);
@@ -64,5 +67,6 @@ int	death_monitor(t_philo *philo)
 
 	pthread_create(&monitor, NULL, death_mon, (void *)philo);
 	pthread_join(monitor, NULL);
+	printf ("MONITOR FINISHED\n");
 	return (1);
 }

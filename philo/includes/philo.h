@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:10:12 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 18:51:14 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/01 20:17:41 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ typedef struct s_philo
 	pthread_mutex_t	*locks;
 	pthread_mutex_t	check;
 	pthread_mutex_t	print;
+	pthread_mutex_t	set;
 	pthread_mutex_t	all;
 }					t_philo;
 
+int		clear_philo(t_philo *philo);
 int		check_eat_nmb(t_philo *philo);
 long	get_time(long align);
 void	ft_sleep(t_philo *philo, long limit);
@@ -59,7 +61,7 @@ int		ft_isdigit(int ch);
 int		ft_atoi(const char *str);
 int		validation(int argc, char **argv);
 int		init_philo(t_philo *philo, int argc, char **argv);
-void	print_info(t_philo *philo, char *out, int index);
+void	print_info(t_philo *philo, char *out, int index, int flag);
 size_t	ft_strlen(const char *str);
 
 #endif
