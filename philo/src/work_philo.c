@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:54:16 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 15:19:51 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/01 17:28:25 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 void	taking_forks(t_member *member)
 {
 	pthread_mutex_lock(member->first);
-	print_info(member->philo, "%12ld %lu has taken a fork\n", member->index + 1);
+	print_info(member->philo, "%12ld %lu has taken a fork\n",
+		member->index + 1);
 	pthread_mutex_lock(member->second);
-	print_info(member->philo, "%12ld %lu has taken a fork\n", member->index + 1);
+	print_info(member->philo, "%12ld %lu has taken a fork\n",
+		member->index + 1);
 }
 
-int	eating(t_member	*member, int *i)
+void	eating(t_member	*member, int *i)
 {
 	print_info(member->philo, "%12ld %lu is eating\n", member->index + 1);
 	pthread_mutex_lock(&member->time_lock);
@@ -30,15 +32,15 @@ int	eating(t_member	*member, int *i)
 	pthread_mutex_unlock(member->first);
 	pthread_mutex_unlock(member->second);
 	if (++(*i) == member->philo->nmb_eats)
-		member->philo->counter++;
-	return (1);
+			member->philo->counter++;
 }
 
 void	sleeping(t_member *member)
 {
 	print_info(member->philo, "%12ld %lu is sleeping\n", member->index + 1);
 	ft_sleep(member->philo, member->philo->time_to_sleep);
-	print_info(member->philo, "%12ld %lu is thinking\n", member->index + 1);
+	print_info(member->philo, "%12ld %lu is thinking\n",
+		member->index + 1);
 }
 
 void	*thread_func(void	*imember)
@@ -48,11 +50,10 @@ void	*thread_func(void	*imember)
 
 	i = 0;
 	member = (t_member *)imember;
-	while (1)
+	while (!member->stop)
 	{
 		taking_forks(member);
-		if (!eating(member, &i))
-			return (NULL);
+		eating(member, &i);
 		sleeping(member);
 	}
 	return (NULL);
@@ -68,14 +69,10 @@ int	work_philo(t_philo *philo)
 	{
 		pthread_create(&philo->members[i].mem_thread, NULL, thread_func, \
 			(void *)&philo->members[i]);
-		i++;
-	}
-	i = 0;
-	while (i < philo->nmb)
-	{
 		pthread_detach(philo->members[i].mem_thread);
 		i++;
 	}
+	i = 0;
 	death_monitor(philo);
 	return (1);
 }

@@ -39,7 +39,7 @@ $(NAME):		$(OBJ) $(OBJ_B) $(HEADER)
 				$(CC) $(PTHREAD) -o $(NAME) $(OBJ)
 
 %.o:			%.c $(HEADER)
-				$(CC) -g $(FLAGS) -I${HEADER} -c $< -o $@
+				$(CC) -g  $(FLAGS) -I${HEADER} -c $< -o $@
 
 bonus:			
 				

@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 18:48:44 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 15:24:18 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/01 15:47:38 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	init_members(t_philo *philos)
 		return (0);
 	while (i < philos->nmb)
 	{
+		philos->members[i].stop = 0;
 		philos->members[i].index = i;
 		philos->members[i].start_time = get_time(0);
 		philos->members[i].last_eat = get_time(0);
