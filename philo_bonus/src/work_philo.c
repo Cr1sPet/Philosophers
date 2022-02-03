@@ -35,6 +35,8 @@ void child_process(t_philo *philo)
 	int i;
 
 	i = 0;
+	philo->start_time = get_time(0);
+	philo->last_eat = get_time(philo->start_time);
 	death_monitor(philo);
 	while (1)
 	{
@@ -63,7 +65,6 @@ int work_philo(t_philo *philo)
 	int i;
 
 	i = 0;
-	death_monitor(philo);
 	eat_checker(philo);
 	printf("hello\n");
 	while (i < philo->nmb)
