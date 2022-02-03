@@ -40,7 +40,7 @@ typedef struct s_philo
 	sem_t			*sem;
 	sem_t			*all;
 	sem_t			*print;
-	pthread_mutex_t	count;
+	sem_t			*count;
 	long			last_eat;
 }   			t_philo;
 

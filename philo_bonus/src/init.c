@@ -6,16 +6,19 @@ static int init_sem (t_philo *philo)
 	sem_unlink("all");
 	sem_unlink("print");
 	sem_unlink("time");
+	sem_unlink("count");
 	philo->sem = sem_open("sem", O_CREAT | O_EXCL, 0644, philo->nmb);
 	philo->all = sem_open("all", O_CREAT | O_EXCL, 0644, 0);
 	philo->print = sem_open("print", O_CREAT | O_EXCL, 0644, 1);
 	philo->time = sem_open("time", O_CREAT | O_EXCL, 0644, 1);
+	philo->count = sem_open("count", O_CREAT | O_EXCL, 0644, 0);
 	if (SEM_FAILED == philo->sem || (SEM_FAILED == philo->all) || 
-	SEM_FAILED == philo->print || SEM_FAILED == philo->time)
+	SEM_FAILED == philo->print || SEM_FAILED == philo->time ||
+	SEM_FAILED == philo->count)
 	{
 		perror("ERROR");
 		return (0);
-	}
+	}	
 	printf ("hello\n");
 	return (1);
 }

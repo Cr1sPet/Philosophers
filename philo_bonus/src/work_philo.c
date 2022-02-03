@@ -1,5 +1,35 @@
 #include "philo.h"
 
+void	*eat_check(void *iphilo)
+{
+	int		i;
+	t_philo	*philo;
+
+	i = 0;
+	philo = (t_philo *)iphilo;
+	while (i < philo->nmb)
+	{
+		sem_wait (philo->count);
+		i++;
+	}
+	print_info(philo, "eat nmb reached\n");
+	sem_wait(philo->time);
+	sem_wait(philo->print);
+	sem_post (philo->all);
+	return (NULL);
+}
+
+static int eat_checker(t_philo *philo)
+{
+	pthread_t	eat_monitor;
+
+	if (-1 == philo->nmb_eats)
+		return (0);
+	pthread_create(&eat_monitor, NULL, eat_check, (void *)philo);
+	pthread_detach (eat_monitor);
+	return (0);
+}
+
 void child_process(t_philo *philo)
 {
 	int i;
@@ -19,13 +49,7 @@ void child_process(t_philo *philo)
 		print_info (philo, "%06ld %d is eating\n");
 		ft_sleep(philo, philo->time_to_eat);
 		if (++i == philo->nmb_eats)
-		{
-			philo->counter++;
-			sem_post(philo->sem);
-			sem_post(philo->sem);
-			sem_post(philo->all);
-			break;
-		}
+			sem_post (philo->count);
 		sem_post(philo->sem);
 		sem_post(philo->sem);
 		print_info (philo, "%06ld %d is sleeping\n");
@@ -40,6 +64,7 @@ int work_philo(t_philo *philo)
 
 	i = 0;
 	death_monitor(philo);
+	eat_checker(philo);
 	printf("hello\n");
 	while (i < philo->nmb)
 	{
