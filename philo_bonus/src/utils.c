@@ -14,9 +14,12 @@ long	get_time(long align)
 
 void	clear_philo(t_philo *philo)
 {
+	sem_close(philo->time);
+	sem_close(philo->count);
 	sem_close(philo->sem);
 	sem_close(philo->all);
 	sem_close(philo->print);
+	free(philo->philos);
 }
 
 void	print_info(t_philo *philo, char *out)

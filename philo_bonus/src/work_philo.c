@@ -13,8 +13,8 @@ void	*eat_check(void *iphilo)
 		i++;
 	}
 	print_info(philo, "eat nmb reached\n");
-	sem_wait(philo->time);
 	sem_wait(philo->print);
+	sem_wait(philo->time);
 	sem_post (philo->all);
 	return (NULL);
 }
@@ -45,9 +45,9 @@ void child_process(t_philo *philo)
 		print_info (philo, "%06ld %d has taken a fork\n");
 		sem_wait(philo->sem);
 		print_info (philo, "%06ld %d has taken a fork\n");
-		// sem_wait(philo->sem);
+		sem_wait(philo->time);
 		philo->last_eat = get_time(philo->start_time);
-		// sem_post(philo->sem);
+		sem_post(philo->time);
 		print_info (philo, "%06ld %d is eating\n");
 		ft_sleep(philo, philo->time_to_eat);
 		if (++i == philo->nmb_eats)
