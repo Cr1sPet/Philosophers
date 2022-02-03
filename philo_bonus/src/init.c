@@ -1,32 +1,21 @@
 #include "philo.h"
 
-static int init_time (t_philo *philo)
-{
-
-	size_t				i;
-
-	i = 0;
-	philo->cur_time = (long *)malloc(sizeof (long) * philo->nmb);
-	if (NULL == philo->cur_time)
-		return (0);
-	philo->start_time = get_time(0);
-	while (i < philo->nmb)
-	{
-		philo->cur_time[i] = 0;
-		i++;
-	}
-	return (1);
-} 
-
 static int init_sem (t_philo *philo)
 {
-	philo->sem = sem_open("/sem", O_EXCL, 0644, philo->nmb);
-	if (SEM_FAILED == philo->sem)
+	sem_unlink("sem");
+	sem_unlink("all");
+	sem_unlink("print");
+	sem_unlink("time");
+	philo->sem = sem_open("sem", O_CREAT | O_EXCL, 0644, philo->nmb);
+	philo->all = sem_open("all", O_CREAT | O_EXCL, 0644, 0);
+	philo->print = sem_open("print", O_CREAT | O_EXCL, 0644, 1);
+	philo->time = sem_open("time", O_CREAT | O_EXCL, 0644, 1);
+	if (SEM_FAILED == philo->sem || (SEM_FAILED == philo->all) || 
+	SEM_FAILED == philo->print || SEM_FAILED == philo->time)
 	{
 		perror("ERROR");
 		return (0);
 	}
-	// clear_philo(philo);
 	printf ("hello\n");
 	return (1);
 }
@@ -42,11 +31,11 @@ int	init_philo (t_philo *philo, int argc, char **argv)
 		philo->nmb_eats = ft_atoi(argv[5]);
 	else
 		philo->nmb_eats = -1;
-	philo->philos = (pthread_t *)malloc(sizeof (pthread_t) * (philo->nmb));
+	philo->philos = (pid_t *)malloc(sizeof (pid_t) * (philo->nmb));
 	if (NULL == philo->philos)
 		return (0);
-	if (!init_time(philo))
-		return (0);
+	philo->start_time = get_time(0);
+	philo->last_eat = get_time(0);
 	printf ("hello\n");
 	if (!init_sem(philo))
 		return (0);

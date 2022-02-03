@@ -1,53 +1,62 @@
 #include "philo.h"
 
-void	child_process(t_philo *philo, long p_indx)
+void child_process(t_philo *philo)
 {
-	int	i;
+	int i;
 
 	i = 0;
+	death_monitor(philo);
 	while (1)
 	{
-		printf("%06ld %lu is thinking\n", get_time(philo->start_time), p_indx + 1);
+		print_info (philo, "%06ld %d is thinking\n");
 		sem_wait(philo->sem);
-		printf("%06ld %lu has taken a fork\n", philo->cur_time[p_indx], p_indx + 1);
+		print_info (philo, "%06ld %d has taken a fork\n");
 		sem_wait(philo->sem);
-		printf("%06ld %lu has taken a fork\n", philo->cur_time[p_indx], p_indx + 1);
-		philo->cur_time[p_indx] = get_time(philo->start_time);
-		printf("%06ld %lu is eating\n", philo->cur_time[p_indx], p_indx + 1);
-		usleep(philo->time_to_eat * 1000);
+		print_info (philo, "%06ld %d has taken a fork\n");
+		// sem_wait(philo->sem);
+		philo->last_eat = get_time(philo->start_time);
+		// sem_post(philo->sem);
+		print_info (philo, "%06ld %d is eating\n");
+		ft_sleep(philo, philo->time_to_eat);
 		if (++i == philo->nmb_eats)
 		{
 			philo->counter++;
 			sem_post(philo->sem);
 			sem_post(philo->sem);
+			sem_post(philo->all);
 			break;
 		}
 		sem_post(philo->sem);
 		sem_post(philo->sem);
-		printf("%06ld %lu is sleeping\n", get_time(philo->start_time), p_indx + 1);
-		usleep(philo->time_to_sleep * 1000);
+		print_info (philo, "%06ld %d is sleeping\n");
+		ft_sleep(philo, philo->time_to_sleep);
 	}
 	exit(EXIT_SUCCESS);
 }
 
-int	work_philo (t_philo *philo)
+int work_philo(t_philo *philo)
 {
-	size_t	i;
-	pid_t	child;
+	int i;
 
 	i = 0;
 	death_monitor(philo);
-	printf ("hello\n");
+	printf("hello\n");
 	while (i < philo->nmb)
 	{
-		child = fork();
-		if (-1 == child)
-			return (0);
-		if (0 == child)
-			child_process(philo, i);
-		usleep(100);
+		philo->philos[i] = fork();
+		philo->index = i;
+		if (-1 == philo->philos[i])
+			while (--i)
+			{
+				printf("OHOHOHOHOHOHHO\n");
+				kill(philo->philos[i], SIGKILL);
+				return (0);
+			}
+
+		if (0 == philo->philos[i])
+			child_process(philo);
 		i++;
 	}
-	i = 0;
+	sem_wait(philo->all);
 	return (1);
 }

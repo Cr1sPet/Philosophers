@@ -10,28 +10,23 @@ long	get_abs(long a)
 
 void *death_mon(void *iphilo)
 {
-	size_t		i;
-	int			ok;
 	t_philo		*philo;
 
 	philo = (t_philo *)iphilo;
-	i = 0;
-	ok = 1;
-	while (1 && ok)
+	while (1)
 	{
-		i = 0;
-		while (i < philo->nmb && ok)
+		sem_wait (philo->time);
+		if ((long)(get_time(philo->start_time) - philo->time_to_die) > philo->last_eat)
 		{
-			if (philo->nmb == philo->counter)
-				ok = 0;
-			if ((long)(get_time(philo->start_time) - philo->time_to_die) >= philo->cur_time[i])
-			{
-				printf("%06ld %lu died\n", get_time(philo->start_time), i + 1);
-				ok = 0;
-			}
-			i++;
+			sem_wait(philo->print);
+			printf("%06ld last eat: %ld %d died\n", get_time(philo->start_time), philo->last_eat, philo->index + 1);
+			// sem_post(philo->print);
+			sem_post(philo->all);
+			return (NULL);
 		}
-	}
+		sem_post (philo->time);
+		// ft_sleep (philo, 1);
+	}	
 	return (NULL);
 }
 
@@ -40,6 +35,6 @@ int death_monitor(t_philo *philo)
 	pthread_t monitor;
 		
 	pthread_create(&monitor, NULL, death_mon, (void *)philo);
-	pthread_join(monitor, NULL);
+	pthread_detach(monitor);
 	return (1);
 }
