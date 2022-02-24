@@ -27,7 +27,7 @@ CC				= gcc
 
 RM				= @rm -f
 
-SEMAPHORS			= -pthread -lrt
+SEMAPHORS			= -pthread
 
 FLAGS			=  -Wall -Wextra -Werror 
 

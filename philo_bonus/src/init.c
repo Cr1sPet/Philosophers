@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 14:47:29 by jchopped          #+#    #+#             */
+/*   Updated: 2022/02/24 14:49:23 by jchopped         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-static int init_sem (t_philo *philo)
+static int	init_sem(t_philo *philo)
 {
 	sem_unlink("sem");
 	sem_unlink("all");
@@ -12,9 +24,9 @@ static int init_sem (t_philo *philo)
 	philo->print = sem_open("print", O_CREAT | O_EXCL, 0644, 1);
 	philo->time = sem_open("time", O_CREAT | O_EXCL, 0644, 1);
 	philo->count = sem_open("count", O_CREAT | O_EXCL, 0644, 0);
-	if (SEM_FAILED == philo->sem || (SEM_FAILED == philo->all) || 
-	SEM_FAILED == philo->print || SEM_FAILED == philo->time ||
-	SEM_FAILED == philo->count)
+	if (SEM_FAILED == philo->sem || (SEM_FAILED == philo->all)
+		|| SEM_FAILED == philo->print || SEM_FAILED == philo->time
+		|| SEM_FAILED == philo->count)
 	{
 		perror("ERROR");
 		return (0);
@@ -23,7 +35,7 @@ static int init_sem (t_philo *philo)
 	return (1);
 }
 
-int	init_philo (t_philo *philo, int argc, char **argv)
+int	init_philo(t_philo *philo, int argc, char **argv)
 {
 	philo->counter = 0;
 	philo->nmb = ft_atoi(argv[1]);

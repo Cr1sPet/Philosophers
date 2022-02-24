@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   valid.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 14:45:52 by jchopped          #+#    #+#             */
+/*   Updated: 2022/02/24 14:45:58 by jchopped         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static int	check_atoi(char *str)
@@ -15,7 +27,7 @@ static int	check_atoi(char *str)
 	return (1);
 }
 
-int	validation (int argc, char **argv)
+int	validation(int argc, char **argv)
 {
 	int	i;
 

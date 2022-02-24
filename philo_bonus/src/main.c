@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 14:45:21 by jchopped          #+#    #+#             */
+/*   Updated: 2022/02/24 14:57:35 by jchopped         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static void	ft_kill_philosophers(t_philo *philo)
@@ -9,7 +21,7 @@ static void	ft_kill_philosophers(t_philo *philo)
 		kill(philo->philos[i++], SIGKILL);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_philo	philo;
 

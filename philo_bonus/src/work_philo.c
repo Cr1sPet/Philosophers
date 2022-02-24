@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   work_philo.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 14:57:43 by jchopped          #+#    #+#             */
+/*   Updated: 2022/02/24 16:10:14 by jchopped         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	*eat_check(void *iphilo)
@@ -12,14 +24,13 @@ void	*eat_check(void *iphilo)
 		sem_wait (philo->count);
 		i++;
 	}
-	print_info(philo, "eat nmb reached\n");
 	sem_wait(philo->print);
 	sem_wait(philo->time);
 	sem_post (philo->all);
 	return (NULL);
 }
 
-static int eat_checker(t_philo *philo)
+static int	eat_checker(t_philo *philo)
 {
 	pthread_t	eat_monitor;
 
@@ -30,14 +41,11 @@ static int eat_checker(t_philo *philo)
 	return (0);
 }
 
-void child_process(t_philo *philo)
+void	process_cycle(t_philo *philo)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	philo->start_time = get_time(0);
-	philo->last_eat = get_time(philo->start_time);
-	death_monitor(philo);
 	while (1)
 	{
 		print_info (philo, "%06ld %d is thinking\n");
@@ -57,28 +65,34 @@ void child_process(t_philo *philo)
 		print_info (philo, "%06ld %d is sleeping\n");
 		ft_sleep(philo, philo->time_to_sleep);
 	}
-	exit(EXIT_SUCCESS);
 }
 
-int work_philo(t_philo *philo)
+void	child_process(t_philo *philo)
 {
-	int i;
+	philo->start_time = get_time(0);
+	philo->last_eat = get_time(philo->start_time);
+	death_monitor(philo);
+	process_cycle(philo);
+}
+
+int	work_philo(t_philo *philo)
+{
+	int	i;
 
 	i = 0;
 	eat_checker(philo);
-	printf("hello\n");
 	while (i < philo->nmb)
 	{
 		philo->philos[i] = fork();
 		philo->index = i;
 		if (-1 == philo->philos[i])
+		{
 			while (--i)
 			{
-				printf("OHOHOHOHOHOHHO\n");
 				kill(philo->philos[i], SIGKILL);
 				return (0);
 			}
-
+		}
 		if (0 == philo->philos[i])
 			child_process(philo);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 16:22:43 by jchopped          #+#    #+#             */
-/*   Updated: 2022/01/29 16:22:57 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/24 14:50:30 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 # include <semaphore.h>
 # include <fcntl.h>
 # include <signal.h>
-
-
 
 typedef struct s_philo
 {
@@ -42,18 +40,18 @@ typedef struct s_philo
 	sem_t			*print;
 	sem_t			*count;
 	long			last_eat;
-}   			t_philo;
+}					t_philo;
 
-long	get_time();
+long	get_time(long align);
 void	print_info(t_philo *philo, char *out);
 void	ft_sleep(t_philo *philo, long limit);
 int		death_monitor(t_philo *philo);
-int		work_philo (t_philo *philo);
+int		work_philo(t_philo *philo);
 int		ft_isdigit(int ch);
-int		ft_atoi(const char *str);
-int		validation (int argc, char **argv);
-int		init_philo (t_philo *philo, int argc, char **argv);
-void	clear_philo(t_philo *philo);
 size_t	ft_strlen(const char *str);
+int		ft_atoi(const char *str);
+int		validation(int argc, char **argv);
+int		init_philo(t_philo *philo, int argc, char **argv);
+void	clear_philo(t_philo *philo);
 
 #endif

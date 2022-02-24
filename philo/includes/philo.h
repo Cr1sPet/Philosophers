@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:10:12 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 22:29:35 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/24 16:11:25 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int		ft_isdigit(int ch);
 int		ft_atoi(const char *str);
 int		validation(int argc, char **argv);
 int		init_philo(t_philo *philo, int argc, char **argv);
-void	print_info(t_philo *philo, char *out, int index, int flag);
+void	print_info(t_philo *philo, char *out, int index);
 size_t	ft_strlen(const char *str);
 
 #endif

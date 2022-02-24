@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:53:10 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/01 22:32:52 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/02/24 16:11:02 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,10 @@ void	ft_sleep(t_philo *philo, long limit)
 		usleep(3 * limit);
 }
 
-void	print_info(t_philo *philo, char *out, int index, int flag)
+void	print_info(t_philo *philo, char *out, int index)
 {
 	pthread_mutex_lock(&philo->print);
-	// if (0 == philo->stop || flag)
-	// {
-		printf(out, get_time(philo->members[index].start_time), index + 1);
-	// }
+	printf(out, get_time(philo->members[index].start_time), index + 1);
 	pthread_mutex_unlock(&philo->print);
 }
 
