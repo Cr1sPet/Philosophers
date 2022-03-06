@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:53:10 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/24 16:11:02 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/06 12:03:34 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ long	get_time(long align)
 
 	if (-1 == gettimeofday(&c_time, NULL))
 		return (0);
-	ret = (c_time.tv_sec % 1000000) * 1000;
+	ret = c_time.tv_sec * 1000;
 	ret += c_time.tv_usec / 1000;
 	return (ret - align);
 }
@@ -47,10 +47,10 @@ int	clear_philo(t_philo *philo)
 	size_t	i;
 
 	i = 0;
-	pthread_mutex_unlock(&philo->set);
-	pthread_mutex_destroy(&philo->set);
-	pthread_mutex_unlock(&philo->print);
-	pthread_mutex_destroy(&philo->print);
+	if (!pthread_mutex_unlock(&philo->set))
+		pthread_mutex_destroy(&philo->set);
+	if (!pthread_mutex_unlock(&philo->print))
+		pthread_mutex_destroy(&philo->print);
 	if (philo->locks)
 	{
 		while (i < philo->nmb)

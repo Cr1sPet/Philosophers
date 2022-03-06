@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:45:42 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/24 14:45:46 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/06 11:52:37 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,17 @@ long	get_time(long align)
 
 void	clear_philo(t_philo *philo)
 {
+	int	i;
+
+	i = 0;
 	sem_close(philo->time);
 	sem_close(philo->count);
 	sem_close(philo->sem);
 	sem_close(philo->all);
 	sem_close(philo->print);
 	free(philo->philos);
+	while (i < philo->nmb)
+		kill(philo->philos[i++], SIGKILL);
 }
 
 void	print_info(t_philo *philo, char *out)

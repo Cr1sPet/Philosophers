@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:47:29 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/24 14:49:23 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/06 11:54:50 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,8 @@ static int	init_sem(t_philo *philo)
 		|| SEM_FAILED == philo->print || SEM_FAILED == philo->time
 		|| SEM_FAILED == philo->count)
 	{
-		perror("ERROR");
 		return (0);
 	}	
-	printf ("hello\n");
 	return (1);
 }
 
@@ -51,8 +49,10 @@ int	init_philo(t_philo *philo, int argc, char **argv)
 		return (0);
 	philo->start_time = get_time(0);
 	philo->last_eat = get_time(0);
-	printf ("hello\n");
 	if (!init_sem(philo))
+	{
+		free(philo->philos);
 		return (0);
+	}
 	return (1);
 }
