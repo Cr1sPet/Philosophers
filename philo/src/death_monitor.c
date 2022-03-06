@@ -24,7 +24,6 @@ int	check_eat_nmb(t_philo *philo)
 		return (1);
 	if (philo->nmb == philo->counter)
 	{
-		philo->stop = 1;
 		return (1);
 	}
 	return (0);
@@ -50,8 +49,6 @@ void	*death_mon(void *iphilo)
 				return (NULL);
 			}
 			pthread_mutex_unlock(&philo->members[i].time_lock);
-			if (check_eat_nmb(philo))
-				return (NULL);
 		}
 	}
 	return (NULL);
@@ -62,6 +59,6 @@ int	death_monitor(t_philo *philo)
 	pthread_t	monitor;
 
 	pthread_create(&monitor, NULL, death_mon, (void *)philo);
-	pthread_join(monitor, NULL);
+	pthread_detach(monitor);
 	return (1);
 }

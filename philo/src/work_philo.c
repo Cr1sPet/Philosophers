@@ -16,10 +16,10 @@ void	threads_join(t_philo *philo)
 {
 	size_t	i;
 
-	i = 0;
-	while (i < philo->nmb)
-		pthread_mutex_unlock(&philo->locks[i++]);
-	i = 0;
+	// i = 0;
+	// while (i < philo->nmb)
+	// 	pthread_mutex_unlock(&philo->locks[i++]);
+	// i = 0;
 	while (i < philo->nmb)
 		pthread_join(philo->members[i++].mem_thread, NULL);
 }
@@ -42,7 +42,10 @@ void	eating(t_member	*member, int *i)
 	pthread_mutex_unlock(member->first);
 	pthread_mutex_unlock(member->second);
 	if (++(*i) == member->philo->nmb_eats)
+	{
 		member->philo->counter++;
+		// printf("%zu - HOHOHOHOHOHOHOHOHOHOHOHOHOHOHOHOHO\n", member->philo->counter);
+	}
 }
 
 void	*thread_func(void	*imember)
@@ -83,6 +86,7 @@ int	work_philo(t_philo *philo)
 			(void *)&philo->members[i]);
 		i++;
 	}
+	threads_join(philo);
 	death_monitor(philo);
 	return (1);
 }
