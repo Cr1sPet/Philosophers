@@ -18,7 +18,6 @@ int	main(int argc, char **argv)
 
 	if (!validation(argc, argv))
 	{
-		clear_philo(&philo);
 		return (EXIT_FAILURE);
 	}
 	if (!init_philo (&philo, argc, argv))

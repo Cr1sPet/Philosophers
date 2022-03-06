@@ -26,13 +26,11 @@ long	get_time(long align)
 
 void	ft_sleep(t_philo *philo, long limit)
 {
-	long	i;
 	long	this_start;
 
-	i = 0;
 	this_start = get_time(philo->start_time);
 	while (get_time (philo->start_time) - this_start < limit)
-		usleep(3 * limit);
+		;
 }
 
 void	print_info(t_philo *philo, char *out, int index)
