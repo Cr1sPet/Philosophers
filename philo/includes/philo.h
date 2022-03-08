@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:10:12 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/24 16:11:25 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/08 17:21:17 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 typedef struct s_member
 {
+	int				eated;
 	int				stop;
 	long			last_eat;
 	long			start_time;
@@ -53,7 +54,7 @@ typedef struct s_philo
 
 void	threads_join(t_philo *philo);
 int		clear_philo(t_philo *philo);
-int		check_eat_nmb(t_philo *philo);
+int		check_stop(t_philo *philo);
 long	get_time(long align);
 void	ft_sleep(t_philo *philo, long limit);
 int		death_monitor(t_philo *philo);

@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 18:48:52 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/24 16:11:45 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/08 17:21:11 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,26 @@
 
 void	work_died(t_philo *philo, int i)
 {
-	philo->stop = 1;
 	print_info(philo, "%12ld %d died\n", i);
+	philo->stop = 1;
 }
 
-int	check_eat_nmb(t_philo *philo)
+int	check_stop(t_philo *philo)
 {
+	size_t	i;
+
+	i = 0;
 	if (philo->stop == 1)
 		return (1);
-	if (philo->nmb == philo->counter)
+	if (philo->nmb_eats != -1)
 	{
+		while (i < philo->nmb)
+		{
+			if (philo->members[i].eated == 0)
+				return (0);
+			i++;
+		}
+		philo->stop = 1;
 		return (1);
 	}
 	return (0);

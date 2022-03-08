@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:54:16 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/24 16:12:50 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/08 17:34:56 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,14 @@ void	threads_join(t_philo *philo)
 {
 	size_t	i;
 
-	// i = 0;
-	// while (i < philo->nmb)
-	// 	pthread_mutex_unlock(&philo->locks[i++]);
-	// i = 0;
+	i = 0;
 	while (i < philo->nmb)
 		pthread_join(philo->members[i++].mem_thread, NULL);
 }
 
 void	taking_forks(t_member *member)
 {
+	print_info(member->philo, "%12ld %lu is thinking\n", member->index);
 	pthread_mutex_lock(member->first);
 	print_info(member->philo, "%12ld %lu has taken a fork\n", member->index);
 	pthread_mutex_lock(member->second);
@@ -42,35 +40,35 @@ void	eating(t_member	*member, int *i)
 	pthread_mutex_unlock(member->first);
 	pthread_mutex_unlock(member->second);
 	if (++(*i) == member->philo->nmb_eats)
-	{
-		member->philo->counter++;
-		// printf("%zu - HOHOHOHOHOHOHOHOHOHOHOHOHOHOHOHOHO\n", member->philo->counter);
-	}
+		member->eated = 1;
 }
 
-void	*thread_func(void	*imember)
+void	*thread_func(void *imember)
 {
-	int				i;
-	t_member		*member;
+	int			i;
+	t_member	*member;
 
 	i = 0;
 	member = (t_member *)imember;
-	while (!member->philo->stop && !check_eat_nmb(member->philo))
+	while (!check_stop(member->philo))
 	{
-		if (member->philo->stop || check_eat_nmb(member->philo))
+		if (check_stop(member->philo))
 			break ;
 		taking_forks(member);
-		if (member->philo->stop || check_eat_nmb(member->philo))
+		if (check_stop(member->philo))
 			break ;
 		eating(member, &i);
-		if (member->philo->stop || check_eat_nmb(member->philo))
+		if (check_stop(member->philo))
 			break ;
 		print_info(member->philo, "%12ld %lu is sleeping\n", member->index);
-		ft_sleep(member->philo, member->philo->time_to_sleep);
-		if (member->philo->stop || check_eat_nmb(member->philo))
+		if (check_stop(member->philo))
 			break ;
-		print_info(member->philo, "%12ld %lu is thinking\n", member->index);
+		ft_sleep(member->philo, member->philo->time_to_sleep);
+		if (member->philo->stop || check_stop(member->philo))
+			break ;
 	}
+	pthread_mutex_unlock(member->first);
+	pthread_mutex_unlock(member->second);
 	return (NULL);
 }
 
@@ -86,7 +84,7 @@ int	work_philo(t_philo *philo)
 			(void *)&philo->members[i]);
 		i++;
 	}
-	threads_join(philo);
 	death_monitor(philo);
+	threads_join(philo);
 	return (1);
 }
