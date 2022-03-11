@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 18:48:52 by jchopped          #+#    #+#             */
-/*   Updated: 2022/03/08 17:21:11 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/11 15:04:35 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	*death_mon(void *iphilo)
 		i = -1;
 		while (++i < philo->nmb)
 		{
+			if (philo->stop)
+				return (NULL);
 			pthread_mutex_lock(&philo->members[i].time_lock);
 			if ((get_time(0) - philo->members[i].last_eat)
 				> (long)philo->time_to_die)
@@ -70,5 +72,6 @@ int	death_monitor(t_philo *philo)
 
 	pthread_create(&monitor, NULL, death_mon, (void *)philo);
 	pthread_detach(monitor);
+	// pthread_join(monitor, NULL);
 	return (1);
 }

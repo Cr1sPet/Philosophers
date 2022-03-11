@@ -22,7 +22,7 @@ static int	check_atoi(char *str)
 		if (!ft_isdigit(str[i++]))
 			return (0);
 	res = ft_atoi(str);
-	if (((2 < ft_strlen(str)) && -1 == res) || 0 == res)
+	if ((2 < ft_strlen(str)) && (-1 == res || 0 == res))
 		return (0);
 	return (1);
 }

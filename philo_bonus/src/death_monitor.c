@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 15:00:31 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/24 15:01:35 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/08 17:58:51 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	*death_mon(void *iphilo)
 			> philo->last_eat)
 		{
 			sem_wait(philo->print);
-			printf("%06ld last eat: %ld %d died\n",
-				get_time(philo->start_time), philo->last_eat, philo->index + 1);
+			printf("%12ld %d died\n",
+				get_time(philo->start_time), philo->index + 1);
 			sem_post(philo->all);
 			return (NULL);
 		}

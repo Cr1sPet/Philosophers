@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:54:16 by jchopped          #+#    #+#             */
-/*   Updated: 2022/03/08 17:34:56 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/08 18:14:48 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void	*thread_func(void *imember)
 		if (check_stop(member->philo))
 			break ;
 		ft_sleep(member->philo, member->philo->time_to_sleep);
-		if (member->philo->stop || check_stop(member->philo))
-			break ;
 	}
 	pthread_mutex_unlock(member->first);
 	pthread_mutex_unlock(member->second);

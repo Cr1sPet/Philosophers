@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 18:48:44 by jchopped          #+#    #+#             */
-/*   Updated: 2022/03/08 17:13:08 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/08 18:28:41 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@ static int	init_lock(t_philo *philo)
 
 	i = 0;
 	if (0 != pthread_mutex_init(&philo->print, NULL))
-		return (0);
-	if (0 != pthread_mutex_init(&philo->all, NULL))
-		return (0);
-	if (0 != pthread_mutex_init(&philo->set, NULL))
 		return (0);
 	philo->locks = (pthread_mutex_t *) \
 		malloc(sizeof (pthread_mutex_t) * (philo->nmb));

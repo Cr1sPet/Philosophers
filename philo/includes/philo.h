@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:10:12 by jchopped          #+#    #+#             */
-/*   Updated: 2022/03/08 17:21:17 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/08 18:28:19 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
 # include <pthread.h>
 
 typedef struct s_member
@@ -48,8 +47,6 @@ typedef struct s_philo
 	pthread_mutex_t	*locks;
 	pthread_mutex_t	check;
 	pthread_mutex_t	print;
-	pthread_mutex_t	set;
-	pthread_mutex_t	all;
 }					t_philo;
 
 void	threads_join(t_philo *philo);

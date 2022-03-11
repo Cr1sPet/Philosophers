@@ -33,7 +33,9 @@ int	ft_atoi(const char *str)
 	{
 		res = (res * 10) + (str[i] - 48);
 		i++;
-		if (res > 2147483647 && check_neg == 1)
+		if (res > 2147483648 && check_neg == -1)
+			return (0);
+		if (res >= 2147483647 && check_neg == 1)
 			return (-1);
 	}
 	return (res * check_neg);

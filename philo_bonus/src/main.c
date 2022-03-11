@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:45:21 by jchopped          #+#    #+#             */
-/*   Updated: 2022/03/06 14:50:06 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/06 11:52:26 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,5 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	work_philo(&philo);
 	clear_philo(&philo);
-	while (1)
-		;
 	return (EXIT_SUCCESS);
 }

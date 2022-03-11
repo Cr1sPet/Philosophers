@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:57:43 by jchopped          #+#    #+#             */
-/*   Updated: 2022/02/24 16:10:14 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/08 17:59:43 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,21 @@ void	process_cycle(t_philo *philo)
 	i = 0;
 	while (1)
 	{
-		print_info (philo, "%06ld %d is thinking\n");
+		print_info (philo, "%12ld %d is thinking\n");
 		sem_wait(philo->sem);
-		print_info (philo, "%06ld %d has taken a fork\n");
+		print_info (philo, "%12ld %d has taken a fork\n");
 		sem_wait(philo->sem);
-		print_info (philo, "%06ld %d has taken a fork\n");
+		print_info (philo, "%12ld %d has taken a fork\n");
 		sem_wait(philo->time);
 		philo->last_eat = get_time(philo->start_time);
 		sem_post(philo->time);
-		print_info (philo, "%06ld %d is eating\n");
+		print_info (philo, "%12ld %d is eating\n");
 		ft_sleep(philo, philo->time_to_eat);
 		if (++i == philo->nmb_eats)
 			sem_post (philo->count);
 		sem_post(philo->sem);
 		sem_post(philo->sem);
-		print_info (philo, "%06ld %d is sleeping\n");
+		print_info (philo, "%12ld %d is sleeping\n");
 		ft_sleep(philo, philo->time_to_sleep);
 	}
 }
