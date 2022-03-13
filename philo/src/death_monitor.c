@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 18:48:52 by jchopped          #+#    #+#             */
-/*   Updated: 2022/03/13 18:14:22 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/13 18:50:13 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	work_died(t_philo *philo, int i)
 {
-	// print_info(philo, "%12ld %d died\n", i);
 	pthread_mutex_lock(&philo->print);
 	printf("%12ld %d died\n", get_time(philo->members[i].start_time), i + 1);
 	philo->stop = 1;

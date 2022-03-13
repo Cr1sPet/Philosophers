@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:45:42 by jchopped          #+#    #+#             */
-/*   Updated: 2022/03/06 11:52:37 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/13 18:17:19 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ long	get_time(long align)
 	if (-1 == gettimeofday(&c_time, NULL))
 		return (0);
 	ret = c_time.tv_sec * 1000;
-	ret += c_time.tv_usec / 1000;
+	ret += c_time.tv_usec * 0.001;
 	return (ret - align);
 }
 
