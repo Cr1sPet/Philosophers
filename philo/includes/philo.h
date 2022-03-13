@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 14:10:12 by jchopped          #+#    #+#             */
-/*   Updated: 2022/03/08 18:28:19 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/13 17:50:53 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_philo
 	size_t			nmb;
 	t_member		*members;
 	size_t			counter;
-	size_t			time_to_die;
+	long			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	pthread_mutex_t	*locks;
@@ -53,7 +53,7 @@ void	threads_join(t_philo *philo);
 int		clear_philo(t_philo *philo);
 int		check_stop(t_philo *philo);
 long	get_time(long align);
-void	ft_sleep(t_philo *philo, long limit);
+void	ft_sleep(long limit);
 int		death_monitor(t_philo *philo);
 int		work_philo(t_philo *philo);
 int		ft_isdigit(int ch);

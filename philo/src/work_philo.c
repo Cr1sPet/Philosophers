@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:54:16 by jchopped          #+#    #+#             */
-/*   Updated: 2022/03/08 18:14:48 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/13 18:01:47 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	eating(t_member	*member, int *i)
 	pthread_mutex_lock(&member->time_lock);
 	member->last_eat = get_time(0);
 	pthread_mutex_unlock(&member->time_lock);
-	ft_sleep(member->philo, member->philo->time_to_eat);
+	ft_sleep(member->philo->time_to_eat);
 	pthread_mutex_unlock(member->first);
 	pthread_mutex_unlock(member->second);
 	if (++(*i) == member->philo->nmb_eats)
@@ -50,6 +50,7 @@ void	*thread_func(void *imember)
 
 	i = 0;
 	member = (t_member *)imember;
+	member->last_eat = get_time(0);
 	while (!check_stop(member->philo))
 	{
 		if (check_stop(member->philo))
@@ -63,7 +64,7 @@ void	*thread_func(void *imember)
 		print_info(member->philo, "%12ld %lu is sleeping\n", member->index);
 		if (check_stop(member->philo))
 			break ;
-		ft_sleep(member->philo, member->philo->time_to_sleep);
+		ft_sleep(member->philo->time_to_sleep);
 	}
 	pthread_mutex_unlock(member->first);
 	pthread_mutex_unlock(member->second);
@@ -80,6 +81,7 @@ int	work_philo(t_philo *philo)
 	{
 		pthread_create(&philo->members[i].mem_thread, NULL, thread_func, \
 			(void *)&philo->members[i]);
+		usleep (10);
 		i++;
 	}
 	death_monitor(philo);

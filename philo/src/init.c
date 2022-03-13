@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 18:48:44 by jchopped          #+#    #+#             */
-/*   Updated: 2022/03/08 18:28:41 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/13 18:14:30 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,8 @@ static int	init_lock(t_philo *philo)
 
 void	init_forks(t_member *member, t_philo *philo)
 {
-	pthread_mutex_t	*left;
-	pthread_mutex_t	*right;
-
-	left = &philo->locks[member->index];
-	right = &philo->locks[(member->index + 1) % philo->nmb];
-	if (member->index % 2 == 0 && member->index != member->philo->nmb - 1)
-	{
-		member->first = right;
-		member->second = left;
-	}
-	else
-	{
-		member->first = left;
-		member->second = right;
-	}
+	member->first = &philo->locks[member->index];
+	member->second = &philo->locks[(member->index + 1) % philo->nmb];
 }
 
 int	init_members(t_philo *philos)

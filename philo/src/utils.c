@@ -6,7 +6,7 @@
 /*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 13:53:10 by jchopped          #+#    #+#             */
-/*   Updated: 2022/03/08 18:28:31 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/03/13 17:39:36 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,18 @@ long	get_time(long align)
 	if (-1 == gettimeofday(&c_time, NULL))
 		return (0);
 	ret = c_time.tv_sec * 1000;
-	ret += c_time.tv_usec / 1000;
+	ret += c_time.tv_usec * 0.001;
 	return (ret - align);
 }
 
-void	ft_sleep(t_philo *philo, long limit)
+void	ft_sleep(long limit)
 {
 	long	this_start;
 
-	this_start = get_time(philo->start_time);
-	while (get_time (philo->start_time) - this_start < limit)
-		usleep(limit * 3);
+	this_start = get_time(0);
+	usleep (0.7 * limit);
+	while (get_time (0) - this_start < limit)
+		usleep(500);
 }
 
 void	print_info(t_philo *philo, char *out, int index)
